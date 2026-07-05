@@ -199,7 +199,7 @@ jobs:
             docker run -d \
             --name python-app \
             --restart unless-stopped \
-            -p 8080:8000 \
+            -p 8000:8000 \
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
             echo "Running Containers"
