@@ -26,8 +26,15 @@ SECRET_KEY = 'django-insecure-js0^(n81j2j1@&5fn!a_jh92*_05id$3tegf@g8frdo!q$fdm*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
+ALLOWED_HOSTS = [
+    "khaleeldevops.site",
+    "www.khaleeldevops.site",
+    "18.61.48.142"
+]
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
