@@ -126,28 +126,20 @@ jobs:
       # Tag Images
       ###############################################################
 
-      - name: Tag Docker Images
+      - name: Tag Docker Image
         run: |
           docker tag \
           $ECR_REPOSITORY:$IMAGE_TAG \
           $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
 
-          docker tag \
-          $ECR_REPOSITORY:latest \
-          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
-
       ###############################################################
       # Push Images
       ###############################################################
 
-      - name: Push Docker Images
+      - name: Push Docker Image
         run: |
-
           docker push \
           $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
-
-          docker push \
-          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
 
 ################################################################################
 # CD
@@ -188,7 +180,7 @@ jobs:
             echo "Pull Latest Image"
 
             docker pull \
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
             echo "Stop Existing Container"
 
@@ -205,10 +197,10 @@ jobs:
             echo "Run New Container"
 
             docker run -d \
-              --name python-app \
-              --restart unless-stopped \
-              -p 80:8000 \
-              ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+            --name python-app \
+            --restart unless-stopped \
+            -p 80:8000 \
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
             echo "Running Containers"
 
